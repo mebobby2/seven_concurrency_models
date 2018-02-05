@@ -22,12 +22,36 @@ One of the applications that’s most amenable to data parallelism is image proc
 ### Task-Level Parallelism
 Multiple processors. From a programmer's point of view, the most important distinguishing feature of a multiprocessor architecture is the memory model, specifically whether it’s shared or distributed.
 
+# Language Notes
+## Anonymous Inner Class in Java
+Anonymous Inner class that extends a class. E.g. You can create a thread by extending the Thread class. You can use an anonymous inner class to declare and instantiate it in one go.
+```
+Thread t = new Thread()
+{
+    public void run()
+    {
+        System.out.println("Child Thread");
+    }
+};
+```
+
+You can also create an anonymous Inner class that implements a interface. E.g. we also know that by implementing Runnable interface we can create a Thread:
+```
+Thread t = new Thread(new Runnable()
+{
+    public void run()
+    {
+        System.out.println("Child Thread");
+    }
+});
+```
+
 # Building
 ## Java
 * Build: *javac file.java*. This will generate a *.class* file.
 * Run: *java file* from the directory where the *.class* file is located
 
 # Upto
-Page 15
+Page 29
 
-Chapter 1
+Multiple Locks
