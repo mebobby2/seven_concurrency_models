@@ -64,6 +64,6 @@ Thread t = new Thread(new Runnable()
 * Run: *java file* from the directory where the *.class* file is located
 
 # Upto
-Page 35
+Page 37
 
-Day 2: Beyond Intrinsic Locks
+Timeouts
