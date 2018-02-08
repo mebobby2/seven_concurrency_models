@@ -34,6 +34,11 @@ Multiple processors. From a programmer's point of view, the most important disti
 * Don’t call alien methods while holding a lock.
 * Hold locks for the shortest possible amount of time.
 
+## Livelock
+Although the tryLock() solution avoids infinite deadlock, that doesn’t mean it’s a good solution. Firstly, it doesn’t avoid deadlock—it simply provides a way to recover when it happens. Secondly, it’s susceptible to a phenomenon known as livelock—if all the threads time out at the same time, it’s quite possible for them to immediately deadlock again. Although the deadlock doesn’t last forever, no progress is made either.
+
+This situation can be mitigated by having each thread use a different timeout value, for example, to minimize the chances that they will all time out simultaneously. But the bottom line is that timeouts are rarely a good solution—it’s far better to avoid deadlock in the first place.
+
 # Language Notes
 ## Anonymous Inner Class in Java
 Anonymous Inner class that extends a class. E.g. You can create a thread by extending the Thread class. You can use an anonymous inner class to declare and instantiate it in one go.
