@@ -19,6 +19,11 @@ public class Philosopher extends Thread{
     public void run() {
         try {
             while (true) {
+                // To increase the changes of a deadlock, decrease the philosophers
+                // eating time (since if at least one philosopher is eating, no deadlock can happen
+                // so we want to decrease the time when the philosopher is in the eating state) and
+                // add a sleep of 1 second after the philosopher has picked up the first
+                // chopstick but before picking up the second chopstick.
                 System.out.println("ID = "+this.id + " is thinking");
                 Thread.sleep(random.nextInt(1000)); // Think for a while
                 synchronized(left) {                // Grab left chopstick
