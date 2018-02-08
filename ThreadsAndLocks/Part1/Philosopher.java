@@ -34,14 +34,17 @@ public class Philosopher extends Thread{
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Philosopher.Chopstick left = new Philosopher.Chopstick();
-        Philosopher.Chopstick right = new Philosopher.Chopstick();
+        Philosopher.Chopstick c1 = new Philosopher.Chopstick();
+        Philosopher.Chopstick c2 = new Philosopher.Chopstick();
+        Philosopher.Chopstick c3 = new Philosopher.Chopstick();
+        Philosopher.Chopstick c4 = new Philosopher.Chopstick();
+        Philosopher.Chopstick c5 = new Philosopher.Chopstick();
 
-        Philosopher p1 = new Philosopher("1", left, right);
-        Philosopher p2 = new Philosopher("2", left, right);
-        Philosopher p3 = new Philosopher("3", left, right);
-        Philosopher p4 = new Philosopher("4", left, right);
-        Philosopher p5 = new Philosopher("5", left, right);
+        Philosopher p1 = new Philosopher("1", c1, c2);
+        Philosopher p2 = new Philosopher("2", c2, c3);
+        Philosopher p3 = new Philosopher("3", c3, c4);
+        Philosopher p4 = new Philosopher("4", c4, c5);
+        Philosopher p5 = new Philosopher("5", c5, c1);
 
         p1.start();
         p2.start();

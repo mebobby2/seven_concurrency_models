@@ -51,14 +51,17 @@ public class NoDeadlockPhilosopher extends Thread{
     }
 
     public static void main(String[] args) throws InterruptedException {
-        NoDeadlockPhilosopher.Chopstick left = new NoDeadlockPhilosopher.Chopstick(1);
-        NoDeadlockPhilosopher.Chopstick right = new NoDeadlockPhilosopher.Chopstick(2);
+        NoDeadlockPhilosopher.Chopstick c1 = new NoDeadlockPhilosopher.Chopstick(1);
+        NoDeadlockPhilosopher.Chopstick c2 = new NoDeadlockPhilosopher.Chopstick(2);
+        NoDeadlockPhilosopher.Chopstick c3 = new NoDeadlockPhilosopher.Chopstick(3);
+        NoDeadlockPhilosopher.Chopstick c4 = new NoDeadlockPhilosopher.Chopstick(4);
+        NoDeadlockPhilosopher.Chopstick c5 = new NoDeadlockPhilosopher.Chopstick(5);
 
-        NoDeadlockPhilosopher p1 = new NoDeadlockPhilosopher("1", left, right);
-        NoDeadlockPhilosopher p2 = new NoDeadlockPhilosopher("2", left, right);
-        NoDeadlockPhilosopher p3 = new NoDeadlockPhilosopher("3", left, right);
-        NoDeadlockPhilosopher p4 = new NoDeadlockPhilosopher("4", left, right);
-        NoDeadlockPhilosopher p5 = new NoDeadlockPhilosopher("5", left, right);
+        NoDeadlockPhilosopher p1 = new NoDeadlockPhilosopher("1", c1, c2);
+        NoDeadlockPhilosopher p2 = new NoDeadlockPhilosopher("2", c2, c3);
+        NoDeadlockPhilosopher p3 = new NoDeadlockPhilosopher("3", c3, c4);
+        NoDeadlockPhilosopher p4 = new NoDeadlockPhilosopher("4", c4, c5);
+        NoDeadlockPhilosopher p5 = new NoDeadlockPhilosopher("5", c5, c1);
 
         p1.start();
         p2.start();
