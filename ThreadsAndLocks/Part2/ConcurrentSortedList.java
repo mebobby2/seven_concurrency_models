@@ -86,8 +86,18 @@ public class ConcurrentSortedList {
             }
         };
 
-        t1.start(); t2.start();
-        t1.join(); t2.join();
+        Thread t3 = new Thread() {
+            public void run() {
+                list.insert(15);
+                list.insert(12);
+                list.insert(13);
+                list.insert(11);
+                list.insert(12);
+            }
+        };
+
+        t1.start(); t2.start(); t3.start();
+        t1.join(); t2.join(); t3.join();
 
         System.out.println("The length of the list is " + list.size());
 

@@ -5,12 +5,12 @@ import java.util.Random;
 /**
  * Philosopher
  */
-public class Philosopher extends Thread{
+public class PhilosopherTimeout extends Thread{
     private ReentrantLock leftChopstick, rightChopstick;
     private String id;
     private Random random;
 
-    public Philosopher(String id, ReentrantLock left, ReentrantLock right) {
+    public PhilosopherTimeout(String id, ReentrantLock left, ReentrantLock right) {
         this.id = id;
         this.leftChopstick = left;
         this.rightChopstick = right;

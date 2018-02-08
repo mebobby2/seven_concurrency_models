@@ -63,12 +63,15 @@ Thread t = new Thread(new Runnable()
 });
 ```
 
+## ++Var and Var++
+Although both var++ and ++var increment the variable they are applied to, the result returned by  var++ is the value of the variable before incrementing, whereas the result returned by ++var is the value of the variable after the increment is applied.
+
 # Building
 ## Java
 * Build: *javac file.java*. This will generate a *.class* file.
 * Run: *java file* from the directory where the *.class* file is located
 
 # Upto
-Page 37
+Page 47
 
-Timeouts
+Day 3: On the Shoulders of Giants
