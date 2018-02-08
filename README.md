@@ -75,5 +75,3 @@ Although both var++ and ++var increment the variable they are applied to, the re
 Page 47
 
 The highlighted lines follow the common pattern of accepting an
-
-Before that: implement EchoClient and get them talking and receiving response back from server
