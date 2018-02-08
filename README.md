@@ -74,4 +74,6 @@ Although both var++ and ++var increment the variable they are applied to, the re
 # Upto
 Page 47
 
-Day 3: On the Shoulders of Giants
+The highlighted lines follow the common pattern of accepting an
+
+Before that: implement EchoClient and get them talking and receiving response back from server
