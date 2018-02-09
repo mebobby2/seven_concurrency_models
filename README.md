@@ -39,6 +39,14 @@ Although the tryLock() solution avoids infinite deadlock, that doesn’t mean it
 
 This situation can be mitigated by having each thread use a different timeout value, for example, to minimize the chances that they will all time out simultaneously. But the bottom line is that timeouts are rarely a good solution—it’s far better to avoid deadlock in the first place.
 
+## How Large Should My Thread Pool Be?
+The optimum number of threads will vary according to the hardware you’re running on, whether your threads are IO or CPU bound, what else the machine is doing at the same time, and a host of other factors.
+
+Having said that, a good rule of thumb is that for computation-intensive tasks, you probably want to have approximately the same number of threads as available cores. Larger numbers are appropriate for IO-intensive tasks.
+
+Beyond this rule of thumb, your best bet is to create a realistic load test and break out the stopwatch.
+
+
 # Language Notes
 ## Anonymous Inner Class in Java
 Anonymous Inner class that extends a class. E.g. You can create a thread by extending the Thread class. You can use an anonymous inner class to declare and instantiate it in one go.
@@ -68,8 +76,9 @@ Although both var++ and ++var increment the variable they are applied to, the re
 
 # Building
 ## Java
-* Build: *javac file.java*. This will generate a *.class* file.
+* Compile: *javac file.java*. This will generate a *.class* file.
 * Run: *java file* from the directory where the *.class* file is located
+* Compile with classpath: *javac -classpath /path/to/other/classes file.java*. Once compiled with the classpath, you can use the run command above as usual, i.e. without the classpath parameter. Classpath parameter is only needed when compiling.
 
 # Upto
 Page 47
