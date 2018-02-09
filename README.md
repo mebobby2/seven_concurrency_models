@@ -46,6 +46,13 @@ Having said that, a good rule of thumb is that for computation-intensive tasks, 
 
 Beyond this rule of thumb, your best bet is to create a realistic load test and break out the stopwatch.
 
+## Why a Blocking Queue?
+As well as blocking queues, java.util.concurrent provides ConcurrentLinkedQueue, an unbounded, wait-free, and nonblocking queue. That sounds like a very desirable set of attributes, so why isn’t it a good choice for this problem?
+
+The issue is that the producer and consumer may not (almost certainly will not) run at the same speed. In particular, if the producer runs faster than the consumer, the queue will get larger and larger. Given that the Wikipedia dump we’re parsing is around 40 GiB, that could easily result in the queue becoming too large to fit in memory.
+
+Using a blocking queue, by contrast, will allow the producer to get ahead of the con- sumer, but not too far.
+
 
 # Language Notes
 ## Anonymous Inner Class in Java
@@ -78,9 +85,9 @@ Although both var++ and ++var increment the variable they are applied to, the re
 ## Java
 * Compile: *javac file.java*. This will generate a *.class* file.
 * Run: *java file* from the directory where the *.class* file is located
-* Compile with classpath: *javac -classpath /path/to/other/classes file.java*. Once compiled with the classpath, you can use the run command above as usual, i.e. without the classpath parameter. Classpath parameter is only needed when compiling.
+* Compile with classpath: *javac -classpath /path/to/other/classes file.java*. Once compiled with the classpath, you can use the run command above as usual, i.e. without the classpath parameter. Classpath parameter is only needed when compiling. If using the current directory as the classpath, can use this shortcut *javac -classpath . file.java*
 
 # Upto
-Page 47
+Page 52
 
-The highlighted lines follow the common pattern of accepting an
+One other interesting aspect of this solution is how the consumer knows when to exit
