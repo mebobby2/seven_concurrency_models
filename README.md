@@ -87,6 +87,12 @@ Although both var++ and ++var increment the variable they are applied to, the re
 * Run: *java file* from the directory where the *.class* file is located
 * Compile with classpath: *javac -classpath /path/to/other/classes file.java*. Once compiled with the classpath, you can use the run command above as usual, i.e. without the classpath parameter. Classpath parameter is only needed when compiling. If using the current directory as the classpath, can use this shortcut *javac -classpath . file.java*
 
+## Maven
+* Must have the src/main/java/com directory set up
+* Copy the pom.xml
+* Package: *mvn package*
+* Run: *java -cp file.jar ClassToRun* E.g. java -cp target/my-app-1.0-SNAPSHOT.jar WordCount
+
 # Book Source Code
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 

@@ -20,9 +20,10 @@ import java.util.concurrent.TimeUnit;
 
 public class WordCount {
 
-  private static final int NUM_COUNTERS = 2;
+  private static final int NUM_COUNTERS = 1;
 
   public static void main(String[] args) throws Exception {
+    System.out.println("HELLO");
     ArrayBlockingQueue<Page> queue = new ArrayBlockingQueue<Page>(100);
     HashMap<String, Integer> counts = new HashMap<String, Integer>();
     ExecutorService executor = Executors.newCachedThreadPool();
