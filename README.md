@@ -87,7 +87,12 @@ Although both var++ and ++var increment the variable they are applied to, the re
 * Run: *java file* from the directory where the *.class* file is located
 * Compile with classpath: *javac -classpath /path/to/other/classes file.java*. Once compiled with the classpath, you can use the run command above as usual, i.e. without the classpath parameter. Classpath parameter is only needed when compiling. If using the current directory as the classpath, can use this shortcut *javac -classpath . file.java*
 
-# Upto
-Page 52
+# Book Source Code
+https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
-One other interesting aspect of this solution is how the consumer knows when to exit
+# Upto
+Page 55
+
+So whenever we call either of these functions, we need to check their return
+
+Before that: Work out why WordCountSynchronizedHashMap is taking so long and not behaving like the book. Then make sure WordCountConcurrentHashMap also behaves like book.
