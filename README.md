@@ -53,6 +53,8 @@ The issue is that the producer and consumer may not (almost certainly will not) 
 
 Using a blocking queue, by contrast, will allow the producer to get ahead of the con- sumer, but not too far.
 
+## Performance Curve
+You’ll see this curve again and again when working with parallel programs. The performance initially increases linearly and is then followed by a period where performance continues to increase, but more slowly. Eventually performance will peak, and adding more threads will only make things slower.
 
 # Language Notes
 ## Anonymous Inner Class in Java
@@ -97,8 +99,6 @@ Although both var++ and ++var increment the variable they are applied to, the re
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 55
+Page 58
 
-So whenever we call either of these functions, we need to check their return
-
-Before that: Work out why WordCountSynchronizedHashMap is taking so long and not behaving like the book. Then make sure WordCountConcurrentHashMap also behaves like book.
+Wrap-Up

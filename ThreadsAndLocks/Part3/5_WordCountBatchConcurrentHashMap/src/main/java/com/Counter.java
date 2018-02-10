@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentMap;
 
@@ -5,11 +7,13 @@ class Counter implements Runnable {
 
   private BlockingQueue<Page> queue;
   private ConcurrentMap<String, Integer> counts;
+  private HashMap<String, Integer> localCounts;
 
   public Counter(BlockingQueue<Page> queue,
                  ConcurrentMap<String, Integer> counts) {
     this.queue = queue;
     this.counts = counts;
+    localCounts = new HashMap<String, Integer>();
   }
 
   public void run() {
@@ -22,17 +26,30 @@ class Counter implements Runnable {
         for (String word: words)
           countWord(word);
       }
+      mergeCounts();
     } catch (Exception e) { e.printStackTrace(); }
   }
 
   private void countWord(String word) {
-    while (true) {
-      Integer currentCount = counts.get(word);
-      if (currentCount == null) {
-        if (counts.putIfAbsent(word, 1) == null)
+    Integer currentCount = localCounts.get(word);
+    if (currentCount == null)
+      localCounts.put(word, 1);
+    else
+      localCounts.put(word, currentCount + 1);
+  }
+
+  private void mergeCounts() {
+    for (Map.Entry<String, Integer> e: localCounts.entrySet()) {
+      String word = e.getKey();
+      Integer count = e.getValue();
+      while (true) {
+        Integer currentCount = counts.get(word);
+        if (currentCount == null) {
+          if (counts.putIfAbsent(word, count) == null)
+            break;
+        } else if (counts.replace(word, currentCount, currentCount + count)) {
           break;
-      } else if (counts.replace(word, currentCount, currentCount + 1)) {
-        break;
+        }
       }
     }
   }
