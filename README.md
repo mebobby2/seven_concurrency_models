@@ -56,6 +56,16 @@ Using a blocking queue, by contrast, will allow the producer to get ahead of the
 ## Performance Curve
 You’ll see this curve again and again when working with parallel programs. The performance initially increases linearly and is then followed by a period where performance continues to increase, but more slowly. Eventually performance will peak, and adding more threads will only make things slower.
 
+## Strengths and Weaknesses of Threads and Locks
+The primary strength of threads and locks is the model’s broad applicability. They are 'close to the metal' — little more than a formal- ization of what the underlying hardware does anyway—they can be very efficient when used correctly.
+
+Outside of a few experimental distributed shared-memory research systems, threads and locks support only shared-memory architectures. If you need to support distributed memory (and, by extension, either geographical distribu- tion or resilience), you will need to look elsewhere. This also means that threads and locks cannot be used to solve problems that are too large to fit on a single system.
+
+The greatest weakness of the approach, however, is that threads-and-locks programming is hard.
+
+The rules about using synchronization to access shared variables; acquiring locks in a fixed, global order; and avoiding alien method calls while holding a lock are applicable to any language with threads and locks.
+
+
 # Language Notes
 ## Anonymous Inner Class in Java
 Anonymous Inner class that extends a class. E.g. You can create a thread by extending the Thread class. You can use an anonymous inner class to declare and instantiate it in one go.
@@ -99,6 +109,6 @@ Although both var++ and ++var increment the variable they are applied to, the re
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 58
+Page 62
 
-Wrap-Up
+Chapter 3
