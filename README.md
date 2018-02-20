@@ -65,9 +65,19 @@ The greatest weakness of the approach, however, is that threads-and-locks progra
 
 The rules about using synchronization to access shared variables; acquiring locks in a fixed, global order; and avoiding alien method calls while holding a lock are applicable to any language with threads and locks.
 
+## Functional Programming
+In contrast to an imperative program, which consists of a series of statements that change global state when executed, a functional program models compu- tation as the evaluation of expressions. Those expressions are built from pure mathematical functions that are both first-class (can be manipulated like any other value) and side effect–free. It’s particularly useful when dealing with concurrency because the lack of side effects makes reasoning about thread safety much easier.
+
+Data that doesn’t change (is immutable) can be accessed by multiple threads without any kind of locking. This is what makes functional programming so compelling when it comes to concurrency and parallelism—functional programs have no mutable state, so they cannot suffer from any of the problems associated with shared mutable state.
+
+## The Perils of Mutable State
+* Hidden mutable state
+* Escapologist (escaped) mutable state
+
 
 # Language Notes
-## Anonymous Inner Class in Java
+## Java
+### Anonymous Inner Class in Java
 Anonymous Inner class that extends a class. E.g. You can create a thread by extending the Thread class. You can use an anonymous inner class to declare and instantiate it in one go.
 ```
 Thread t = new Thread()
@@ -90,8 +100,11 @@ Thread t = new Thread(new Runnable()
 });
 ```
 
-## ++Var and Var++
+### ++Var and Var++
 Although both var++ and ++var increment the variable they are applied to, the result returned by  var++ is the value of the variable before incrementing, whereas the result returned by ++var is the value of the variable after the increment is applied.
+
+## Clojure
+* *lein repl* - to open the REPL
 
 # Building
 ## Java
@@ -104,6 +117,12 @@ Although both var++ and ++var increment the variable they are applied to, the re
 * Copy the pom.xml
 * Package: *mvn package*
 * Run: *java -cp file.jar ClassToRun* E.g. java -cp target/my-app-1.0-SNAPSHOT.jar WordCount
+
+# Installing
+## Clojure
+* brew install clojure
+* brew install leiningen
+
 
 # Book Source Code
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
