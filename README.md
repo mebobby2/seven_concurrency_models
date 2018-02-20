@@ -105,6 +105,7 @@ Although both var++ and ++var increment the variable they are applied to, the re
 
 ## Clojure
 * *lein repl* - to open the REPL
+* *(load-file "FunctionalProgramming/sum.clj")* - to load a clojure file from inside the REPL
 
 # Building
 ## Java
@@ -128,6 +129,6 @@ Although both var++ and ++var increment the variable they are applied to, the re
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 62
+Page 67
 
-Chapter 3
+Effortless Parallelism
