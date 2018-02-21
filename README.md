@@ -103,9 +103,13 @@ Thread t = new Thread(new Runnable()
 ### ++Var and Var++
 Although both var++ and ++var increment the variable they are applied to, the result returned by  var++ is the value of the variable before incrementing, whereas the result returned by ++var is the value of the variable after the increment is applied.
 
+### Just-in-time Optimizer
+As is often the case with code running on the JVM, we have to run more than once to give the just-in-time optimizer a chance to kick in and get a representative time
+
 ## Clojure
 * *lein repl* - to open the REPL
-* *(load-file "FunctionalProgramming/sum.clj")* - to load a clojure file from inside the REPL
+* *(load-file "FunctionalProgramming/sum.clj")* - to load a clojure file from inside the REPL. The path is relative from the directory where the REPL is started
+* *lein new project_name* - generate a new clojure project
 
 # Building
 ## Java
@@ -129,6 +133,6 @@ Although both var++ and ++var increment the variable they are applied to, the re
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 67
+Page 70
 
-Effortless Parallelism
+It turns out that the Clojure standard library has beaten us to it
