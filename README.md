@@ -111,6 +111,13 @@ As is often the case with code running on the JVM, we have to run more than once
 * *(load-file "FunctionalProgramming/sum.clj")* - to load a clojure file from inside the REPL. The path is relative from the directory where the REPL is started
 * *lein new project_name* - generate a new clojure project
 
+### Creating Standalone Java Applications with Leiningen
+1. Specify the *aot* and *main* attributes in project.clj
+2. Ensure *:gen-class* in the namespace of the program and define a *-main* function
+3. lein compile
+4. lein uberjar
+5. java -jar target/*file.jar
+
 # Building
 ## Java
 * Compile: *javac file.java*. This will generate a *.class* file.
