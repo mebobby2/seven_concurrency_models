@@ -144,4 +144,4 @@ Page 72
 
 It’s Good to Be Lazy
 
-Before that: run wordcount clojure app for count-words-sequential. We ran into a null pointer exception. Then run it for parallel and other versions.
+Before that: run wordcount clojure app for count-words. We ran into a null pointer exception. Then run it for parallel version.
