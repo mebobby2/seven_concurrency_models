@@ -140,6 +140,8 @@ As is often the case with code running on the JVM, we have to run more than once
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 70
+Page 72
 
-It turns out that the Clojure standard library has beaten us to it
+It’s Good to Be Lazy
+
+Before that: run wordcount clojure app for count-words-sequential. We ran into a null pointer exception. Then run it for parallel and other versions.
