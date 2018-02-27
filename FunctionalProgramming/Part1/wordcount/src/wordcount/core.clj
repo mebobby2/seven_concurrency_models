@@ -11,5 +11,5 @@
     (pmap count-words-sequential (partition-all 100 pages))))
 
 (defn -main [& args]
-  (time (count-words (take 100000 (get-pages "/Users/bob/Downloads/wikipedia-dump.xml"))))
+  (time (count-words (take 10000 (get-pages "/Users/bob/Downloads/wikipedia-dump.xml"))))
   (shutdown-agents))
