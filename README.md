@@ -140,8 +140,6 @@ As is often the case with code running on the JVM, we have to run more than once
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 72
+Page 77
 
-It’s Good to Be Lazy
-
-Before that: run wordcount clojure app for count-words. We ran into a null pointer exception. Then run it for parallel version.
+Reducers

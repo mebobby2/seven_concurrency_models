@@ -4,6 +4,15 @@
  * Running time 3 consumer: 2590ms
  * Running time 4 consumer: 2633ms
  * Running time 4 consumer: 2796ms
+ *
+ * Why is the batch version faster than the parallel version??
+ * Answer is because the parallel version is creating too much
+ * contention for the counts map. Hence the consumers are spending
+ * unnecessary time waiting.
+ * The batch one is faster because each consumer stores a local
+ * set of counts and merges them at the end. The merging at the
+ * end means there are overall less merges in the program
+ * hence the program runs faster.
  */
 
 import java.util.Map;
