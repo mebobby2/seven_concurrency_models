@@ -140,6 +140,8 @@ As is often the case with code running on the JVM, we have to run more than once
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 77
+Page 84
 
-Reducers
+Day 3: Functional Concurrency
+
+Before that: Do the 'Do' section from end of Day 2
