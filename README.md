@@ -74,6 +74,20 @@ Data that doesn’t change (is immutable) can be accessed by multiple threads wi
 * Hidden mutable state
 * Escapologist (escaped) mutable state
 
+## Evaluation Order
+In an imperative language like Java, the order in which things happen is tightly bound to the order in which statements appear in the source code. The compiler and runtime can move things around somewhat, but broadly speaking things happen in the same order as we write them down.
+
+Functional languages have a much more declarative feel. Instead of writing a set of instructions for how to perform an operation, a functional program is more a statement of what the result should be. How the various calculations are ordered to achieve that result is much more fluid—this freedom to reorder calculations is what allows functional code to be parallelized so easily.
+
+## Referential Transparency
+Pure functions are referentially transparent — anywhere an invocation of the function appears, we can replace it with its result without changing the behavior of the program.
+
+Indeed, one way to think about what executing functional code means is to think of it as repeatedly replacing function invocations with their results until you reach the final result.
+
+And because every function is referentially transparent, it enables us to safely make the radical changes to evaluation order.
+
+
+
 
 # Language Notes
 ## Java
@@ -110,6 +124,7 @@ As is often the case with code running on the JVM, we have to run more than once
 * *lein repl* - to open the REPL
 * *(load-file "FunctionalProgramming/sum.clj")* - to load a clojure file from inside the REPL. The path is relative from the directory where the REPL is started
 * *lein new project_name* - generate a new clojure project
+* *lein run* - run the project. Will automatically pull down the dependencies inside project.clj and run the main file specified in project.clj as well
 
 ### Creating Standalone Java Applications with Leiningen
 1. Specify the *aot* and *main* attributes in project.clj
@@ -117,6 +132,11 @@ As is often the case with code running on the JVM, we have to run more than once
 3. lein compile
 4. lein uberjar
 5. java -jar target/*file.jar
+
+### Impure
+Clojure is an impure functional language — it is possible to write functions with side effects in Clojure, and any such functions will not be referentially transparent.
+
+This turns out to make little difference in practice because side effects are both very rare in idiomatic Clojure code and obvious when they do exist. There are a few simple rules about where side effects can safely appear, and as long as you follow those rules you’re unlikely to hit problems with evaluation order.
 
 # Building
 ## Java
@@ -140,8 +160,6 @@ As is often the case with code running on the JVM, we have to run more than once
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 84
+Page 91
 
-Day 3: Functional Concurrency
-
-Before that: Do the 'Do' section from end of Day 2
+Sentences

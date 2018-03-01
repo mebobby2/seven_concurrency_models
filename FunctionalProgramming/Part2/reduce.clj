@@ -38,3 +38,19 @@
     (partial merge-with +)
     (fn [counts x] (assoc counts x (inc (get counts x 0))))
     coll))
+
+(defn my-filter [filterf reducible]
+  (make-reducer reducible
+    (fn [reducef]
+      (fn [acc v]
+        (if (filterf v)
+          (reducef acc v)
+          acc)))))
+
+(defn my-flatten [reducible]
+  (make-reducer reducible
+    (fn [reducef]
+      (fn [acc v]
+        (if (sequential? v)
+          (coll-reduce (my-flatten v) reducef acc)
+          (reducef acc v))))))
