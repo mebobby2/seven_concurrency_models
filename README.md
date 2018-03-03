@@ -160,6 +160,8 @@ This turns out to make little difference in practice because side effects are bo
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 91
+Page 94
 
-Sentences
+Day 3 Wrap-Up
+
+Before that: Debug why the transcript handler is not working
