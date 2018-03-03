@@ -164,4 +164,4 @@ Page 94
 
 Day 3 Wrap-Up
 
-Before that: Debug why the transcript handler is not working
+Before that: Write the TranscriptTest app. Then run it on the transcript handler and translator servers. If the servers do not work, debug why
