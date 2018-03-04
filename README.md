@@ -86,8 +86,11 @@ Indeed, one way to think about what executing functional code means is to think 
 
 And because every function is referentially transparent, it enables us to safely make the radical changes to evaluation order.
 
+## Dataflow Programming
+Referential transparency, which allows us to change the in which functions are called without affecting the behaviour of the program facilitates dataflow programming in which code executes when the data it depends on becomes available.
 
-
+## Structure Sharing
+All of Clojure’s collections are persistent. Persistence in this case doesn’t have anything to do with persistence on disk or within a database. Instead it refers to a data structure that always preserves its previous version when it’s modified, which allows code to have a consistent view of the data in the face of modifications. Persistent data structures behave as though a complete copy is made each time they’re modified. Their implementation is done using structure sharing, to avoid the penalties of actually copying data. For example, when two lists have a common tail, the tails are shared. Lists handle only common tails well — if we want to have two lists with different tails, we have no choice but to copy.
 
 # Language Notes
 ## Java
@@ -160,8 +163,6 @@ This turns out to make little difference in practice because side effects are bo
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 94
+Page 104
 
-Day 3 Wrap-Up
-
-Before that: Write the TranscriptTest app. Then run it on the transcript handler and translator servers. If the servers do not work, debug why
+Identity or State?
