@@ -163,6 +163,6 @@ This turns out to make little difference in practice because side effects are bo
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 104
+Page 106
 
-Identity or State?
+A Hybrid Web Service
