@@ -163,6 +163,6 @@ This turns out to make little difference in practice because side effects are bo
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 110
+Page 112
 
-Day 2: Agents and Software Transactional Memory
+Error Handling
