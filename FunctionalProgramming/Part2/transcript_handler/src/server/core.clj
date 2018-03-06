@@ -11,12 +11,13 @@
             [server.sentences   :refer [strings->sentences]]
             [server.charset     :refer [wrap-charset]]
             [compojure.core     :refer :all]
+            [server.session     :refer [new-session get-session]]
             [compojure.handler  :refer [api]]
             [ring.util.response :refer [charset response]]
             [ring.adapter.jetty :refer [run-jetty]]
             [clj-http.client    :as client]))
 
-(def snippets (repeatedly promise))
+; (def snippets (repeatedly promise))
 
 (def translator "http://localhost:3001/translate")
 
@@ -24,26 +25,46 @@
   (future
     (:body (client/post translator {:body text}))))
 
-(def translations
-  (delay
-    (map translate (strings->sentences (map deref snippets)))))
+; (def translations
+;   (delay
+;     (map translate (strings->sentences (map deref snippets)))))
 
-(defn accept-snippet [n text]
-  (deliver (nth snippets n) text))
+(defn accept-snippet [session n text]
+  (deliver (nth (:snippets session) n) text))
 
-(defn get-translation [n]
-  @(nth @translations n))
+(defn get-translation [session n]
+  @(nth @(:translations session) n))
 
-(defroutes app-routes
-  (PUT "/snippet/:n" [n :as {:keys [body]}]
-    (accept-snippet (edn/read-string n) (slurp body))
-    (response "OK"))
-  (GET "/translation/:n" [n]
-    (response (get-translation (edn/read-string n)))))
+(defn create-session []
+  (let [snippets (repeatedly promise)
+        translations (delay (map translate
+                                  (strings->sentences (map deref snippets))))]
+    (new-session {:snippets snippets :translations translations})))
+
+; (defroutes app-routes
+;   (PUT "/snippet/:n" [n :as {:keys [body]}]
+;     (accept-snippet (edn/read-string n) (slurp body))
+;     (response "OK"))
+;   (GET "/translation/:n" [n]
+;     (response (get-translation (edn/read-string n)))))
 
 ; (future
 ;   (doseq [snippet (map deref snippets)]
 ;     (println snippet)))
+
+(defroutes app-routes
+  (POST "/session/create" []
+    (response (str (create-session))))
+
+  (context "/session/:session-id" [session-id]
+    (let [session (get-session (edn/read-string session-id))]
+      (routes
+        (PUT "/snippet/:n" [n :as {:keys [body]}]
+          (accept-snippet session (edn/read-string n) (slurp body))
+          (response "OK"))
+
+        (GET "/translation/:n" [n]
+          (response (get-translation session (edn/read-string n))))))))
 
 (defn -main [& args]
   (run-jetty (wrap-charset (api app-routes)) {:port 3000}))

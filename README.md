@@ -163,6 +163,6 @@ This turns out to make little difference in practice because side effects are bo
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 106
+Page 110
 
-A Hybrid Web Service
+Day 2: Agents and Software Transactional Memory
