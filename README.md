@@ -141,6 +141,13 @@ Clojure is an impure functional language — it is possible to write functions w
 
 This turns out to make little difference in practice because side effects are both very rare in idiomatic Clojure code and obvious when they do exist. There are a few simple rules about where side effects can safely appear, and as long as you follow those rules you’re unlikely to hit problems with evaluation order.
 
+### Shared Mutable State
+An **atom** allows you to make synchronous changes to a *single* value — synchronous because when swap! returns, the update has taken place. Updates to one atom are *not coordinated* with other updates.
+
+An **agent** allows you to make *asynchronous* changes to a *single* value — asynchronous because the update takes place after send returns. Updates to one agent are *not coordinated* with other updates.
+
+**Refs** allow you to make *synchronous*, *coordinated* changes to *multiple* values.
+
 # Building
 ## Java
 * Compile: *javac file.java*. This will generate a *.class* file.
@@ -163,6 +170,6 @@ This turns out to make little difference in practice because side effects are bo
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 112
+Page 119
 
-Error Handling
+Day 3: In Depth
