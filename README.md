@@ -148,6 +148,9 @@ An **agent** allows you to make *asynchronous* changes to a *single* value — a
 
 **Refs** allow you to make *synchronous*, *coordinated* changes to *multiple* values.
 
+### Atoms or STM?
+Whenever we need to coordinate modifications of multiple values we can either use multiple refs and coordinate access to them with transactions or collect those values together into a compound data structure stored in a single atom. Both approaches work so pick the simpliest and most efficient approach for the problem you are solving.
+
 # Building
 ## Java
 * Compile: *javac file.java*. This will generate a *.class* file.
@@ -160,6 +163,12 @@ An **agent** allows you to make *asynchronous* changes to a *single* value — a
 * Package: *mvn package*
 * Run: *java -cp file.jar ClassToRun* E.g. java -cp target/my-app-1.0-SNAPSHOT.jar WordCount
 
+## Leiningen
+* lein new project-name
+* lein compile
+* lein repl
+* lein run (make sure project.clj has the main attribute that point to the file that needs to run)
+
 # Installing
 ## Clojure
 * brew install clojure
@@ -170,6 +179,6 @@ An **agent** allows you to make *asynchronous* changes to a *single* value — a
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 119
+Page 123
 
-Day 3: In Depth
+Custom Concurrency
