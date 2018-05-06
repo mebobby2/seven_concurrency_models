@@ -151,6 +151,11 @@ An **agent** allows you to make *asynchronous* changes to a *single* value — a
 ### Atoms or STM?
 Whenever we need to coordinate modifications of multiple values we can either use multiple refs and coordinate access to them with transactions or collect those values together into a compound data structure stored in a single atom. Both approaches work so pick the simpliest and most efficient approach for the problem you are solving.
 
+### loop/recur
+Unlike many functional languages, Clojure does not provide tail-call elimination, so idiomatic Clojure makes very little use of recursion. Instead, Clojure provides loop/recur.
+
+The loop macro defines a target that recur can jump to (reminiscent of setjmp() and longjmp() in C/C++).
+
 # Building
 ## Java
 * Compile: *javac file.java*. This will generate a *.class* file.
@@ -179,6 +184,6 @@ Whenever we need to coordinate modifications of multiple values we can either us
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 123
+Page 126
 
-Custom Concurrency
+Wrap-Up

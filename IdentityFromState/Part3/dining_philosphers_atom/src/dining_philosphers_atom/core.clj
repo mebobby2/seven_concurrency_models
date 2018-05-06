@@ -1,4 +1,5 @@
-(ns dining-philosphers-atom.core)
+(ns dining-philosphers-atom.core
+  (:require [dining-philosphers-atom.utils :refer :all]))
 
 (def philosophers (atom (into [] (repeat 5 :thinking))))
 
@@ -10,13 +11,20 @@
   (println "Philosopher" n " is eating")
   (Thread/sleep (rand 1000)))
 
+; This version of claim-chopticks! is not very elegant because after calling swap!, we
+; need to make sure the philosopher was able to claim the chopticks again i.e. the line
+; (= (@philosophers philosopher) :eating)).
+; (defn claim-chopsticks! [philosopher left right]
+;   (swap! philosophers
+;     (fn [ps]
+;       (if (and (= (ps left) :thinking) (= (ps right) :thinking))
+;       (assoc ps philosopher :eating)
+;       ps)))
+;   (= (@philosophers philosopher) :eating))
 (defn claim-chopsticks! [philosopher left right]
-  (swap! philosophers
-    (fn [ps]
-      (if (and (= (ps left) :thinking) (= (ps right) :thinking))
-      (assoc ps philosopher :eating)
-      ps)))
-  (= (@philosophers philosopher) :eating))
+  (swap-when! philosophers
+    #(and (= (%1 left) :thinking) (= (%1 right) :thinking))
+    assoc philosopher :eating))
 
 (defn release-chopsticks [philosopher]
   (swap! philosophers assoc philosopher :thinking))
