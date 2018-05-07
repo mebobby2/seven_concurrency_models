@@ -184,4 +184,6 @@ The loop macro defines a target that recur can jump to (reminiscent of setjmp() 
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 128
+Page 140
+
+Day 2: Error Handling and Resilience
