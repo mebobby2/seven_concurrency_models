@@ -156,6 +156,50 @@ Unlike many functional languages, Clojure does not provide tail-call elimination
 
 The loop macro defines a target that recur can jump to (reminiscent of setjmp() and longjmp() in C/C++).
 
+## Elixir
+
+### The error-kernel pattern
+
+A software system’s error kernel is the part that must be correct if the system is to function correctly. Well-written programs make this error kernel as small and as simple as possible—so small and simple that there are obviously no deficiencies.
+
+An actor program’s error kernel is its top-level supervisors. These supervise their children—starting, stopping, and restarting them as necessary.
+
+This leads to a hierarchy of error kernels in which risky operations are pushed down toward the lower-level actors.
+
+### Defensive Programming vs let-it-crash
+
+Defensive programming is an approach to achieving fault tolerance by trying to anticipate possible bugs. Imagine, for example, that we’re writing a method that takes a string and returns true if it’s all uppercase and false otherwise. Here’s one possible implementation:
+
+```
+def all_upper?(s) do
+  String.upcase(s) == s
+end
+```
+
+This is a perfectly reasonable method, but if for some reason we pass nil to it, it will crash. With that in mind, some developers would change it to read like this:
+
+```
+def all_upper?(s) do
+  cond do
+    nil?(s) -> false
+    true -> String.upcase(s) == s
+  end
+end
+```
+
+So now the code won’t crash if it’s given nil, but what if we pass something else that doesn’t make sense (a keyword, for example)? And in any case, what does it mean to call this function with nil? There’s an excellent chance that any code that does so contains a bug—a bug that we’ve now masked, meaning that we’re likely to remain unaware of it until it bites us at some time in the future.
+
+Actor programs tend to avoid defensive programming and subscribe to the 'let it crash' philosophy, allowing an actor’s supervisor to address the problem instead.
+
+### Linking processes
+Elixir provides fault detection by allowing processes to be linked, which can be used to create supervisors:
+
+* Links are bidirectional—if process *a* is linked to process *b*, then *b* is also linked to *a*
+* Links propagate errors—if two processes are linked and one of them ter- minates abnormally, so will the other.
+* If a process is marked as a system process, instead of exiting when a linked process terminates abnormally, it’s notified with an :EXIT message.
+
+
+
 # Building
 ## Java
 * Compile: *javac file.java*. This will generate a *.class* file.
@@ -184,6 +228,6 @@ The loop macro defines a target that recur can jump to (reminiscent of setjmp() 
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 140
+Page 150
 
-Day 2: Error Handling and Resilience
+Day 3: Distribution
