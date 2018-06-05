@@ -228,6 +228,9 @@ Elixir provides fault detection by allowing processes to be linked, which can be
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 150
+Page 166
 
-Day 3: Distribution
+Chapter 6
+
+
+Before that: Run Actors/Part3/word_count program. It's coded up, but haven't had a chance to run and test it yet
