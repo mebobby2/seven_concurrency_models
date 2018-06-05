@@ -231,6 +231,3 @@ https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 Page 166
 
 Chapter 6
-
-
-Before that: Run Actors/Part3/word_count program. It's coded up, but haven't had a chance to run and test it yet
