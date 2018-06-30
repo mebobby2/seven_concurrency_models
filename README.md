@@ -156,6 +156,21 @@ Unlike many functional languages, Clojure does not provide tail-call elimination
 
 The loop macro defines a target that recur can jump to (reminiscent of setjmp() and longjmp() in C/C++).
 
+### Go Blocks
+Threads have both an overhead and a startup cost, which is why most modern programs avoid creating threads directly and use a thread pool instead.
+
+Thread pools are a great way to handle CPU-intensive tasks—those that tie a thread up for a brief period and then return it to the pool to be reused. But what if we want to do something that involves communication? Blocking a thread ties it up indefinitely, eliminating much of the value of using a thread pool.
+
+There are ways around this, but they typically involve restructuring code to make it event-driven, a style of programming that will be familiar to anyone who’s done UI programming or worked with any of the recent breed of evented servers.
+
+Although this works, it breaks up the natural flow of control and can make code difficult to read and reason about. Worse, it can lead to an excess of global state, with event handlers saving data for use by later handlers. And as we’ve seen, state and concurrency really don’t mix.
+
+Go blocks provide an alternative that gives us the best of both worlds—the efficiency of event-driven code without having to compromise its structure or readability. They achieve this by transparently rewriting sequential code into event-driven code under the hood.
+
+Code within a go block is transformed into a state machine. Instead of blocking when it reads from or writes to a channel, the state machine parks, relinquishing control of the thread it’s executing on. When it’s next able to run, it performs a state transition and continues execution, potentially on another thread.
+
+This represents an inversion of control, allowing the core.async runtime to effi- ciently multiplex many go blocks over a limited thread pool. Just how efficiently we’ll soon see, but first let’s see an example.
+
 ## Elixir
 
 ### The error-kernel pattern
@@ -228,6 +243,6 @@ Elixir provides fault detection by allowing processes to be linked, which can be
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 166
+Page 172
 
-Chapter 6
+Parking
