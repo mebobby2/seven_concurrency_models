@@ -37,3 +37,33 @@
 ; 3. We read the y-th element of this sequence with nth, the value of
 ;    which will be a channel containing the result of incrementing x y times.
 ; 4. Finally, we read the value of that channel with <!!
+
+(defn map-chan [f from]
+  (let [to (chan)]
+    (go-loop []
+      (when-let [x (<! from)]
+        (>! to (f x))
+        (recur))
+      (close! to))
+    to))
+
+
+; A Concurrent Sieve of Eratosthenes
+
+(defn factor? [x y]
+  (zero? (mod y x)))
+
+(defn get-primes [limit]
+  (let [primes (chan)
+        numbers (to-chan (range 2 limit))]
+    (go-loop [ch numbers]
+      (when-let [prime (<! ch)]
+        (>! primes prime)
+        (recur (remove< (partial factor? prime) ch)))
+      (close! primes))
+    primes))
+; (let [primes (get-primes 100000)]
+;   (loop []
+;     (when-let [prime (<!! primes)]
+;       (println prime)
+;       (recur))))
