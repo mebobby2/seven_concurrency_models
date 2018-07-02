@@ -67,3 +67,21 @@
 ;     (when-let [prime (<!! primes)]
 ;       (println prime)
 ;       (recur))))
+
+
+(defn get-primes-timeout []
+  (let [primes (chan)
+        numbers (to-chan (iterate inc 2))]
+      (go-loop [ch numbers]
+        (when-let [prime (<! ch)]
+          (>! primes prime)
+          (recur (remove< (partial factor? prime) ch)))
+        (close! primes))
+      primes))
+
+; (let [primes (get-primes-timeout)
+;       limit (timeout (* 10 1000))]
+;   (loop []
+;     (alt!! :priority true
+;       limit nil
+;       primes ([prime] (println prime) (recur))))))
