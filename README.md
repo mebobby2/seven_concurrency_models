@@ -243,6 +243,6 @@ Elixir provides fault detection by allowing processes to be linked, which can be
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 184
+Page 191
 
-Asynchronous IO
+Day 3: Client-Side CSP
