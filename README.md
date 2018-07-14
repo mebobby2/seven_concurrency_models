@@ -90,7 +90,13 @@ And because every function is referentially transparent, it enables us to safely
 Referential transparency, which allows us to change the in which functions are called without affecting the behaviour of the program facilitates dataflow programming in which code executes when the data it depends on becomes available.
 
 ## Structure Sharing
-All of Clojure’s collections are persistent. Persistence in this case doesn’t have anything to do with persistence on disk or within a database. Instead it refers to a data structure that always preserves its previous version when it’s modified, which allows code to have a consistent view of the data in the face of modifications. Persistent data structures behave as though a complete copy is made each time they’re modified. Their implementation is done using structure sharing, to avoid the penalties of actually copying data. For example, when two lists have a common tail, the tails are shared. Lists handle only common tails well — if we want to have two lists with different tails, we have no choice but to copy.
+All of Clojure’s collections are persistent. Persistence in this case doesn’t have anything to do with persistence on disk or within a database. Instead it refers to a data structure that always preserves its previous version when it’s modified, which allows code to have a consistent view of the data in the face of modifications. Persistent data structures behave as though a complete copy is made each time they’re modified. Their implementation is done using structure sharing, to avoid the penalties of actually copying data. For example, when two lists have a common tail, the tails are shared. Lists handle only common tails well — if we want to have two lists with different tails, we have no choice
+but to copy.
+
+## ClojureScript
+Browser-based JavaScript engines are single threaded, so what relevance can core.async possibly have? Don’t you need multiple threads for concurrent programming to be useful?
+
+The go macro’s inversion of control magic means that ClojureScript can bring the appearance of multiple threads to client-side programming even in the absence of true multithreading. This is a form of cooperative multitasking—one task won’t preemptively interrupt another.
 
 # Language Notes
 ## Java
@@ -232,6 +238,7 @@ Elixir provides fault detection by allowing processes to be linked, which can be
 * lein compile
 * lein repl
 * lein run (make sure project.clj has the main attribute that point to the file that needs to run)
+* lein cljsbuild once (building a clojurescript project by transpiling clojurescript to javascript). Use *lein run* to run the server after the building is completed.
 
 # Installing
 ## Clojure
