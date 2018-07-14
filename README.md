@@ -98,6 +98,10 @@ Browser-based JavaScript engines are single threaded, so what relevance can core
 
 The go macro’s inversion of control magic means that ClojureScript can bring the appearance of multiple threads to client-side programming even in the absence of true multithreading. This is a form of cooperative multitasking—one task won’t preemptively interrupt another.
 
+## CSP vs Actors
+Most of the differences between actors and CSP result from the differing focus of the communities that have developed around them. The actor community has concentrated on fault tolerance and distribution, and the CSP community on efficiency and expressiveness. Choosing between them, therefore, is largely a question of deciding which of these aspects is most important to you.
+
+
 # Language Notes
 ## Java
 ### Anonymous Inner Class in Java
