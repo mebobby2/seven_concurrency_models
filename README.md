@@ -223,6 +223,14 @@ Elixir provides fault detection by allowing processes to be linked, which can be
 * Links propagate errors—if two processes are linked and one of them ter- minates abnormally, so will the other.
 * If a process is marked as a system process, instead of exiting when a linked process terminates abnormally, it’s notified with an :EXIT message.
 
+## OpenCL
+OpenCL (Open Computing Language) is a framework for writing programs that execute across heterogeneous platforms consisting of central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators. OpenCL specifies programming languages (based on C99 and C++11) for programming these devices and application programming interfaces (APIs) to control the platform and execute programs on the compute devices. OpenCL provides a standard interface for parallel computing using task- and data-based parallelism.
+
+### Compute kernel
+In computing, a compute kernel is a routine compiled for high throughput accelerators (such as GPUs, DSPs or FPGAs), separate from (but used by) a main program. They are sometimes called compute shaders, sharing execution units with vertex shaders and pixel shaders on GPUs, but are not limited to execution on one class of device, or graphics APIs.
+
+
+
 
 
 # Building
@@ -254,6 +262,6 @@ Elixir provides fault detection by allowing processes to be linked, which can be
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 191
+Page 206
 
-Day 3: Client-Side CSP
+Create a Context
