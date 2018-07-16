@@ -5,8 +5,11 @@
 #endif
 
 #include <stdio.h>
+#include <mach/mach_time.h>
+#include <inttypes.h>
 
-#define NUM_ELEMENTS 1024
+#define NUM_ELEMENTS (1024 * 100)
+
 char *read_source(const char *filename)
 {
   FILE *h = fopen(filename, "r");
@@ -28,59 +31,83 @@ void random_fill(cl_float array[], size_t size)
 
 int main()
 {
-  // Set up the Kernel
   cl_platform_id platform;
   clGetPlatformIDs(1, &platform, NULL);
 
   cl_device_id device;
   clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
 
-  cl_context context = clCreateCommandQueue(NULL, 1, &device, NULL);
+  cl_context context = clCreateContext(NULL, 1, &device, NULL, NULL, NULL);
 
-  cl_command_queue queue = clCreateCommandQueue(context, device, 0, NULL);
+  cl_command_queue queue = clCreateCommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, NULL);
 
   char *source = read_source("multiply_arrays.cl");
-  cl_program program = clCreateProgramWithSource(context, 1, (const char **)&source, NULL, NULL);
-
+  cl_program program = clCreateProgramWithSource(context, 1,
+                                                 (const char **)&source, NULL, NULL);
   free(source);
 
   clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
+
   cl_kernel kernel = clCreateKernel(program, "multiply_arrays", NULL);
 
-  // Set up the argument and result buffers
   cl_float a[NUM_ELEMENTS], b[NUM_ELEMENTS];
   random_fill(a, NUM_ELEMENTS);
   random_fill(b, NUM_ELEMENTS);
 
-  cl_mem inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(cl_float) * NUM_ELEMENTS, a, NULL);
-  cl_mem inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(cl_float) * NUM_ELEMENTS, b, NULL);
-  cl_mem output = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(cl_float) * NUM_ELEMENTS, NULL, NULL);
+  uint64_t startGPU = mach_absolute_time();
+
+  cl_mem inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+                                 sizeof(cl_float) * NUM_ELEMENTS, a, NULL);
+  cl_mem inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+                                 sizeof(cl_float) * NUM_ELEMENTS, b, NULL);
+  cl_mem output = clCreateBuffer(context, CL_MEM_WRITE_ONLY,
+                                 sizeof(cl_float) * NUM_ELEMENTS, NULL, NULL);
 
   clSetKernelArg(kernel, 0, sizeof(cl_mem), &inputA);
   clSetKernelArg(kernel, 1, sizeof(cl_mem), &inputB);
   clSetKernelArg(kernel, 2, sizeof(cl_mem), &output);
 
+  cl_event timing_event;
+  size_t work_units = NUM_ELEMENTS;
+  clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &work_units,
+                         NULL, 0, NULL, &timing_event);
 
-  // Enqueue the jobs
-  size_t work_items = NUM_ELEMENTS;
-  clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &work_items, NULL, 0, NULL, NULL);
-
-  // Retrieve results
   cl_float results[NUM_ELEMENTS];
-  clEnqueueReadBuffer(queue, output, CL_TRUE, 0, sizeof(cl_float) * NUM_ELEMENTS, results, 0, NULL, NULL);
+  clEnqueueReadBuffer(queue, output, CL_TRUE, 0, sizeof(cl_float) * NUM_ELEMENTS,
+                      results, 0, NULL, NULL);
+  uint64_t endGPU = mach_absolute_time();
 
-  // Cleanup
+  for (int i = 0; i < NUM_ELEMENTS; ++i) {
+    printf("%f * %f = %f\n", a[i], b[i], results[i]);
+  }
+
+  printf("\n");
+
+  printf("Total (GPU): %lu ns\n\n", (unsigned long)(endGPU - startGPU));
+
+  cl_ulong starttime;
+  clGetEventProfilingInfo(timing_event, CL_PROFILING_COMMAND_START,
+                          sizeof(cl_ulong), &starttime, NULL);
+  cl_ulong endtime;
+  clGetEventProfilingInfo(timing_event, CL_PROFILING_COMMAND_END,
+                          sizeof(cl_ulong), &endtime, NULL);
+  printf("Elapsed (GPU): %lu ns\n\n", (unsigned long)(endtime - starttime));
+  clReleaseEvent(timing_event);
   clReleaseMemObject(inputA);
   clReleaseMemObject(inputB);
   clReleaseMemObject(output);
   clReleaseKernel(kernel);
   clReleaseProgram(program);
-  clReleaseCommandQueue(inputA);
-  clRetainContext(context);
+  clReleaseCommandQueue(queue);
+  clReleaseContext(context);
 
-  for (int i = 0; i < NUM_ELEMENTS; ++i) {
-    printf("%f * %f = %f\n", a[i], b[i], results[i]);
-  }
+  uint64_t startCPU = mach_absolute_time();
+
+  for (int i = 0; i < NUM_ELEMENTS; ++i)
+    results[i] = a[i] * b[i];
+
+  uint64_t endCPU = mach_absolute_time();
+  printf("Elapsed (CPU): %lu ns\n\n", (unsigned long)(endCPU - startCPU));
 
   return 0;
 }
