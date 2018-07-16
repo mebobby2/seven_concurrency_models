@@ -229,6 +229,17 @@ OpenCL (Open Computing Language) is a framework for writing programs that execut
 ### Compute kernel
 In computing, a compute kernel is a routine compiled for high throughput accelerators (such as GPUs, DSPs or FPGAs), separate from (but used by) a main program. They are sometimes called compute shaders, sharing execution units with vertex shaders and pixel shaders on GPUs, but are not limited to execution on one class of device, or graphics APIs.
 
+## C
+### Basic Notes on Memory Management
+```
+int main() {
+    int i;    // i is an int
+    int *p;   // this is a * in a type-name. It means p is a pointer-to-int
+    p = &i;   // use & operator to get a pointer to i, assign that to p.
+    *p = 3;   // use * operator to "dereference" p, meaning 3 is assigned to i.
+}
+```
+
 
 
 
@@ -251,6 +262,11 @@ In computing, a compute kernel is a routine compiled for high throughput acceler
 * lein repl
 * lein run (make sure project.clj has the main attribute that point to the file that needs to run)
 * lein cljsbuild once (building a clojurescript project by transpiling clojurescript to javascript). Use *lein run* to run the server after the building is completed.
+
+## Make
+* Navigate to the directory where the Makefile is located
+* Run command: *make*
+* To run: *./program_name*
 
 # Installing
 ## Clojure
