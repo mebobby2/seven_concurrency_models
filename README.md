@@ -255,6 +255,7 @@ int main() {
 * Copy the pom.xml
 * Package: *mvn package*
 * Run: *java -cp file.jar ClassToRun* E.g. java -cp target/my-app-1.0-SNAPSHOT.jar WordCount
+* To generate a new project with Maven: *mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=com.wordcount -DartifactId=WordCount*, where wordcount is the name of the project in this example
 
 ## Leiningen
 * lein new project-name
@@ -278,4 +279,7 @@ int main() {
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 234
+Page 241
+
+
+Running Locally
