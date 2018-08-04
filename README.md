@@ -278,6 +278,4 @@ int main() {
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 224
-
-Day 3: OpenCL and OpenGL—Keeping It on the GPU
+Page 234
