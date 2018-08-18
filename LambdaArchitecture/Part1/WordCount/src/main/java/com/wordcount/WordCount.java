@@ -15,6 +15,25 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+/*
+To run (from the WordCount root dir):
+1. Start Hadoop
+   /usr/local/hadoop/sbin/start-all.sh
+2. Create input dir
+   hdfs dfs -mkdir /user/bob/input
+3. Move input files to hdfs
+   hdfs dfs -put input/* /user/bob/input
+5. Build the package
+   mvn package
+6. Run
+   hadrrop jar target/wordcount-1.0-jar-with-dependencies.jar input output
+
+There is something wrong with my Hadoop installation. It's not using the /users/bob path prefix.
+So Before step 2, I had to create the necessary folders first.
+   hdfs dfs -mkdir /user
+   hdfs dfs -mkdir /user/bob
+*/
+
 public class WordCount extends Configured implements Tool {
     public static class Map extends Mapper<Object, Text, Text, IntWritable> {
         private final static IntWritable one = new IntWritable(1);
