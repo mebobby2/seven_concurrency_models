@@ -279,7 +279,7 @@ int main() {
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 242
+Page 248
 
 
-Running on Amazon EMR
+Day 2: The Batch Layer
