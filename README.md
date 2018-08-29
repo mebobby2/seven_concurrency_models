@@ -101,6 +101,62 @@ The go macro’s inversion of control magic means that ClojureScript can bring t
 ## CSP vs Actors
 Most of the differences between actors and CSP result from the differing focus of the communities that have developed around them. The actor community has concentrated on fault tolerance and distribution, and the CSP community on efficiency and expressiveness. Choosing between them, therefore, is largely a question of deciding which of these aspects is most important to you.
 
+## Problems with Traditional Data Systems
+Data systems are nothing new—we’ve been using databases to answer ques- tions about the data stored within them for almost as long as computers have existed. Traditional databases work well up to a point, but the volume of data we’re trying to handle these days is pushing them beyond the point where they can cope.
+
+### Scaling
+Some techniques enable a traditional database to scale beyond a single machine (replication, sharding, and so on), but these become harder and harder to apply as the number of machines and the query volume grows. Beyond a certain point, adding machines simply doesn’t help.
+
+### Maintenance Overhead
+Maintaining a database spread over a number of machines is hard. Doing so without downtime is even more so—if you need to reshard your database, for example. Then there’s fault tolerance, backup, and ensuring data integrity, all of which become exponentially more difficult as the volume of data and queries increases.
+
+### Complexity
+Replication and sharding typically require support at the application lay- er—your application needs to know which replicas to query and which shards to update (which will typically vary from query to query in nonobvious ways). Often many of the facilities that programmers have grown used to, such as transaction support, disappear when a database is sharded, meaning that programmers have to handle failures and retries explicitly. All of this increases the chances of mistakes being made.
+
+### Human Error
+An often-forgotten aspect of fault tolerance is coping with human error. Most data corruptions don’t result from a disk going bad, but rather from a mistake on the part of either an administrator or a developer. If you’re lucky, this will be something that you spot quickly and can recover from by restoring from a backup, but not all errors are this obvious. What if you have an error that results in widespread corruption that goes undetected for a couple of weeks? How are you going to repair your database?
+
+Sometimes you can undo the damage by understanding the effects of the bug and then creating a one-off script to fix up the database. Sometimes you can undo it by replaying from log files (assuming your log files capture all the information you need). And sometimes you’re simply out of luck. Relying on luck is not a good long-term strategy.
+
+### Reporting and Analysis
+Traditional databases excel at operational support—the day-to-day running of the business. They’re much less effective when it comes to reporting and analysis, both of which require access to historical information.
+
+A typical solution is to have a separate data warehouse that maintains histor- ical data in an alternative structure. Data moves from the operational database to the data warehouse through a process known as extract, transform, load (ETL). Not only is this complicated, but it depends upon accurately predicting which information you’ll need ahead of time—it’s not at all uncommon to find that some report or analysis you would like to perform is impossible because the information you would need to run it has been lost or captured in the wrong structure.
+
+In the next section we’ll see how the Lambda Architecture addresses all these issues. Not only does it allow us to handle the vast quantities of data modern applications are faced with, but it also does so simply, recovering from both technical failure and human error and maintaining the complete historical record that will enable us to perform any reporting or analysis we might dream up in the future.
+
+## The Lambda Architecture
+
+### Data Is Better Raw
+We can divide information into two categories—raw data and derived information. E.g. The balance of your bank account is derived from a sequence of raw debits and credits. This insight, that raw data is eternally true, is the fundamental basis of the Lambda Architecture.
+
+Raw data is immutable. Storing it becomes trivial. All our storage medium needs to do is allow us to append new data as and when it becomes available—we don’t need elaborate locking mechanisms or transactions, because once it’s been stored it will never change.
+
+When data is immutable, multiple threads can access it in parallel without any concern of interfering with each other. We can take copies of it and operate on those copies, without worrying about them becoming out- of-date, so distributing the data across a cluster immediately becomes much easier.
+
+### The 3 Layers
+1. **Batch layer** that provides the following functionality:
+Managing the master dataset, an immutable, append-only set of raw data.
+Pre-computing arbitrary query functions, called batch views.
+2. **Serving layer** — This layer indexes the batch views so that they can be queried in ad hoc with low latency.
+3. **Speed layer** — This layer accommodates all requests that are subject to low latency requirements. Using fast and incremental algorithms, the speed layer deals with recent data only.
+
+Each of these layers can be realized using various big data technologies. For instance, the batch layer datasets can be in a distributed filesystem, while MapReduce can be used to create batch views that can be fed to the serving layer. The serving layer can be implemented using NoSQL technologies such as HBase, while querying can be implemented by technologies such as Apache Drill or Impala. Finally, the speed layer can be realized with data streaming technologies such as Apache Storm or Spark Streaming.
+
+
+### The Batch Layer
+The batch layer runs in an infinite loop, regenerating batch views from our raw data. Each time a batch run completes, the Serving layer updates its database.
+
+The Serving layer is a where we index the batch views (e.g. with a database) so the data can be queried by a e.g. web-server with low-latency.
+
+Because it only ever operates on immutable raw data, the batch layer can easily exploit parallelism. Raw data can be distributed across a cluster of machines, enabling batch views to be recomputed in an acceptable period of time even when dealing with terabytes of input.
+
+The immutability of raw data also means that the system is intrinsically hardened against both technical failure and human error. Not only is it much easier to back up raw data, but if there’s a bug, the worst that can happen is that batch views are temporarily incorrect—we can always correct them by fixing the bug and recomputing them.
+
+Finally, because we retain all raw data, we can always generate any report or analysis that might occur to us in the future.
+
+There’s an obvious problem, though — latency. If the batch layer takes an hour to run, then our batch views will always be at least an hour out-of-date. This is where the Speed layer comes into play.
+
 
 # Language Notes
 ## Java
@@ -279,7 +335,7 @@ int main() {
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
 
 # Upto
-Page 248
+Page 260
 
 
-Day 2: The Batch Layer
+Day 3: The Speed Layer
