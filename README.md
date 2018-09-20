@@ -333,9 +333,3 @@ int main() {
 
 # Book Source Code
 https://github.com/islomar/seven-concurrency-models-in-seven-weeks
-
-# Upto
-Page 260
-
-
-Day 3: The Speed Layer
